@@ -1,0 +1,7 @@
+{
+  "name": "tca-foo-react-ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
