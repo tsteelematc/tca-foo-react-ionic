@@ -1,6 +1,29 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton } from '@ionic/react';
+import { gameResult } from '../App';
+import { useHistory } from 'react-router-dom';
 
-const PlayGame: React.FC = () => {
+interface PlayGameProps {
+    addGameResult: (r: gameResult) => void;
+}
+
+const PlayGame: React.FC<PlayGameProps> = ({addGameResult}) => {
+
+  const history = useHistory();
+
+  const endGame = () => {
+
+    // Add the new game result to the app data.
+    addGameResult({
+        start: ""
+        , end: ""
+        , players: []
+        , winner: ""
+    });
+
+    // Navigate Home.
+    history.push("/");
+  };
+
   return (
     <IonPage>
       <IonHeader>
@@ -15,7 +38,7 @@ const PlayGame: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonButton
-          routerLink='/'
+            onClick={endGame}
         >
           Done
         </IonButton>
