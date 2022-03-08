@@ -40,6 +40,11 @@ export interface gameResult {
   players: player[]   
 }
 
+export interface currentGame {
+  start: string;
+  players: string[];
+}
+
 const game1: gameResult = {
   start: "2022-02-14T18:55:00"
   , end: "2022-02-14T19:00:00"
@@ -65,7 +70,12 @@ const getUniquePlayers = (games: gameResult[]) => (
 
 const App: React.FC = () => {
 
+  // App state as useState() until it gets unmanageable...
   const [results, setResults] = useState<gameResult[]>(gameResults);
+  const [currentGame, setCurrentGame] = useState<currentGame>({
+    start: ""
+    , players: []
+  });
 
   const addGameResult = (singleGameResult: gameResult) => {
     setResults([
@@ -81,11 +91,13 @@ const App: React.FC = () => {
           <Route exact path="/play">
             <PlayGame
               addGameResult={addGameResult} 
+              currentGame={currentGame}
             />
           </Route>
           <Route exact path="/setup">
             <SetupGame 
               previousPlayers={getUniquePlayers(results)}
+              setCurrentGame={setCurrentGame}
             />
           </Route>
           <Route exact path="/home">

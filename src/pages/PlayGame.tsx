@@ -1,12 +1,16 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton } from '@ionic/react';
-import { gameResult } from '../App';
+import { currentGame, gameResult } from '../App';
 import { useHistory } from 'react-router-dom';
 
 interface PlayGameProps {
     addGameResult: (r: gameResult) => void;
+    currentGame: currentGame;
 }
 
-const PlayGame: React.FC<PlayGameProps> = ({addGameResult}) => {
+const PlayGame: React.FC<PlayGameProps> = ({
+  addGameResult
+  , currentGame
+}) => {
 
   const history = useHistory();
 
@@ -14,10 +18,13 @@ const PlayGame: React.FC<PlayGameProps> = ({addGameResult}) => {
 
     // Add the new game result to the app data.
     addGameResult({
-        start: ""
-        , end: ""
-        , players: []
-        , winner: ""
+        start: currentGame.start
+        , end: new Date().toISOString()
+        , players: currentGame.players.map(x => ({
+          name: x 
+          , order: 0
+        }))
+        , winner: "Suzzie"
     });
 
     // Navigate Home.
