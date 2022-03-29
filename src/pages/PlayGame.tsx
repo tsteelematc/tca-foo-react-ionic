@@ -17,14 +17,18 @@ const PlayGame: React.FC<PlayGameProps> = ({
   const endGame = () => {
 
     // Add the new game result to the app data.
+
+    const mappedPlayers = currentGame.players.map(x => ({
+      name: x 
+      , order: 0
+    }));
+    console.log(mappedPlayers);
+
     addGameResult({
         start: currentGame.start
         , end: new Date().toISOString()
-        , players: currentGame.players.map(x => ({
-          name: x 
-          , order: 0
-        }))
-        , winner: "Suzzie"
+        , players: mappedPlayers
+        , winner: currentGame.players[0]
     });
 
     // Navigate Home.
@@ -44,6 +48,13 @@ const PlayGame: React.FC<PlayGameProps> = ({
             <IonTitle size="large">Play Game</IonTitle>
           </IonToolbar>
         </IonHeader>
+        { currentGame.players.map(x => (
+          <p
+            key={x}
+          >
+            {x}
+          </p>
+        ))}
         <IonButton
             onClick={endGame}
         >
