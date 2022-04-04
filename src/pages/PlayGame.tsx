@@ -14,7 +14,7 @@ const PlayGame: React.FC<PlayGameProps> = ({
 
   const history = useHistory();
 
-  const endGame = () => {
+  const endGame = (winningPlayer: string) => {
 
     // Add the new game result to the app data.
 
@@ -28,7 +28,7 @@ const PlayGame: React.FC<PlayGameProps> = ({
         start: currentGame.start
         , end: new Date().toISOString()
         , players: mappedPlayers
-        , winner: currentGame.players[0]
+        , winner: winningPlayer
     });
 
     // Navigate Home.
@@ -49,16 +49,17 @@ const PlayGame: React.FC<PlayGameProps> = ({
           </IonToolbar>
         </IonHeader>
         { currentGame.players.map(x => (
-          <p
+          <IonButton
             key={x}
+            onClick={() => endGame(x)}
           >
-            {x}
-          </p>
+            {x} Won
+          </IonButton>
         ))}
         <IonButton
-            onClick={endGame}
+            onClick={() => history.push("/")}
         >
-          Done
+          Quit
         </IonButton>
       </IonContent>
     </IonPage>
