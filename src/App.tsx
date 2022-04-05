@@ -24,7 +24,10 @@ import './theme/variables.css';
 import SetupGame from './pages/SetupGame';
 import PlayGame from './pages/PlayGame';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+import localforage from 'localforage';
+
 
 setupIonicReact();
 
@@ -59,7 +62,7 @@ const game2: gameResult = {
   , players: [{ name: "Me", order: 1 }, { name: "Stephanie", order: 2 }]
 };
 
-const gameResults: gameResult[] = [
+const gameResultsBad: gameResult[] = [
   game1
   , game2
 ];
@@ -70,18 +73,43 @@ const getUniquePlayers = (games: gameResult[]) => (
 
 const App: React.FC = () => {
 
+  const loadGameResults = async () => {
+    try {
+      const r = await localforage.getItem<gameResult[]>("gameResults");
+      setResults(r ?? []);
+    }
+
+    catch(err) {
+      console.error(err);
+      setResults([]);
+    }
+  };
+
+  useEffect(
+    () => {
+      loadGameResults();
+    }
+    , []
+  );
+
   // App state as useState() until it gets unmanageable...
-  const [results, setResults] = useState<gameResult[]>(gameResults);
+  const [results, setResults] = useState<gameResult[]>([]);
   const [currentGame, setCurrentGame] = useState<currentGame>({
     start: ""
     , players: []
   });
 
-  const addGameResult = (singleGameResult: gameResult) => {
-    setResults([
+  const addGameResult = async (singleGameResult: gameResult) => {
+
+    const updatedResults = [
       ...results 
       , singleGameResult
-    ]);
+    ];
+
+
+    const savedResults = await localforage.setItem('gameResults', updatedResults);
+    // loadGameResults();
+    setResults(savedResults);
   };
 
   return (
