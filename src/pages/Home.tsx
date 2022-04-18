@@ -2,6 +2,7 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonTex
 import ExploreContainer from '../components/ExploreContainer';
 import './Home.css';
 import { gameResult } from '../App';
+import prettyMs from "pretty-ms";
 
 interface HomeProps {
   gameResults: gameResult[];
@@ -58,7 +59,7 @@ const Home: React.FC<HomeProps> = ({
           Total Games Played: {gameResults.length}
         </h3>
         <h3>
-          Shortest Game (min): {calculateShortestGame(gameResults) / 1000 / 60}
+          Shortest Game (min): {prettyMs(calculateShortestGame(gameResults))}
         </h3>
         <IonGrid>
           {calculateLeaderBoard(previousPlayers, gameResults)
