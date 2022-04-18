@@ -28,6 +28,7 @@ import { useState, useEffect } from 'react';
 
 import localforage from 'localforage';
 
+import { saveGameToCloud, loadGamesFromCloud } from './TcaCloudApi';
 
 setupIonicReact();
 
@@ -106,6 +107,13 @@ const App: React.FC = () => {
       , singleGameResult
     ];
 
+
+    saveGameToCloud(
+      "tsteele@madisoncollege.edu"  // Hardcoded for now...
+      , "tca-foo-react-ionic"       // Always hardcoded
+      , singleGameResult.end        // or new Date().toISOString()
+      , singleGameResult            // Has to be a JS object ! ! !
+    );
 
     const savedResults = await localforage.setItem('gameResults', updatedResults);
     // loadGameResults();
