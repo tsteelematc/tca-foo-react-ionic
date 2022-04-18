@@ -115,9 +115,9 @@ const App: React.FC = () => {
       , singleGameResult            // Has to be a JS object ! ! !
     );
 
-    const savedResults = await localforage.setItem('gameResults', updatedResults);
-    // loadGameResults();
-    setResults(savedResults);
+    // const savedResults = await localforage.setItem('gameResults', updatedResults);
+   
+    setResults(updatedResults);
   };
 
   return (
