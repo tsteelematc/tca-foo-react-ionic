@@ -76,7 +76,12 @@ const App: React.FC = () => {
 
   const loadGameResults = async () => {
     try {
-      const r = await localforage.getItem<gameResult[]>("gameResults");
+      // const r = await localforage.getItem<gameResult[]>("gameResults");
+      const r = await loadGamesFromCloud(
+        "tsteele@madisoncollege.edu"
+        , "tca-foo-react-ionic"
+      );
+      
       setResults(r ?? []);
     }
 
