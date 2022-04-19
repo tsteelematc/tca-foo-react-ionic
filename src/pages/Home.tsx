@@ -42,6 +42,9 @@ const Home: React.FC<HomeProps> = ({
 
   const lb = calculateLeaderBoard(previousPlayers, gameResults);
 
+  const shortestGame = calculateShortestGame(gameResults);
+  const shortestGameDisplay = isFinite(shortestGame) ? prettyMs(shortestGame) : "N/A";
+
   return (
     <IonPage>
       <IonHeader>
@@ -59,7 +62,7 @@ const Home: React.FC<HomeProps> = ({
           Total Games Played: {gameResults.length}
         </h3>
         <h3>
-          Shortest Game (min): {prettyMs(calculateShortestGame(gameResults))}
+          Shortest Game: {shortestGameDisplay}
         </h3>
         <IonGrid>
           {calculateLeaderBoard(previousPlayers, gameResults)
