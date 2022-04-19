@@ -27,6 +27,7 @@ import PlayGame from './pages/PlayGame';
 import { useState, useEffect } from 'react';
 
 import localforage from 'localforage';
+import { saveGameToCloud, loadGamesFromCloud } from './TcaCloudApi';
 
 
 setupIonicReact();
@@ -106,10 +107,15 @@ const App: React.FC = () => {
       , singleGameResult
     ];
 
+    setResults(updatedResults);
 
-    const savedResults = await localforage.setItem('gameResults', updatedResults);
-    // loadGameResults();
-    setResults(savedResults);
+    // const savedResults = await localforage.setItem('gameResults', updatedResults);
+    await saveGameToCloud(
+      "tsteele@madisoncollege.edu"
+      , "tca-foo-react-ionic"
+      , singleGameResult.end // new Date().toISOString()
+      , singleGameResult
+    );
   };
 
   return (
