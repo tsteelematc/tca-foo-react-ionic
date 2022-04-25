@@ -3,11 +3,13 @@ import ExploreContainer from '../components/ExploreContainer';
 import './Home.css';
 import { gameResult } from '../App';
 import prettyMs from "pretty-ms";
+import { useState } from 'react';
 
 interface HomeProps {
   gameResults: gameResult[];
   previousPlayers: string[];
   emailAddress: string;
+  updateEmailAddress: (e: string) => void;
 }
 
 const calculateShortestGame = (r: gameResult[]) => (
@@ -40,7 +42,10 @@ const Home: React.FC<HomeProps> = ({
   gameResults
   , previousPlayers
   , emailAddress
+  , updateEmailAddress
 }) => {
+
+  const [emailAddressForEditing, setEmailAddressForEditing] = useState(emailAddress);
 
   const lb = calculateLeaderBoard(previousPlayers, gameResults);
 
@@ -100,8 +105,12 @@ const Home: React.FC<HomeProps> = ({
           <>
             <IonInput
               placeholder='Enter email address'
+              value={emailAddressForEditing}
+              onIonChange={(e) => setEmailAddressForEditing(e.detail.value ?? "")}
             ></IonInput>
-            <IonButton>
+            <IonButton
+              onClick={() => updateEmailAddress(emailAddressForEditing)}
+            >
               Save
             </IonButton>
           </>
