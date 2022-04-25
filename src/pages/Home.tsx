@@ -69,6 +69,15 @@ const Home: React.FC<HomeProps> = ({
           emailAddress.length >  0 ?
           <>
             <h3>
+              {emailAddress}
+              <IonButton
+                buttonType='link'
+                onClick={() => updateEmailAddress("")}
+              >
+                Reset
+              </IonButton>
+            </h3>
+            <h3>
               Total Games Played: {gameResults.length}
             </h3>
             <h3>
