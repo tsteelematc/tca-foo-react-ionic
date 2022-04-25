@@ -106,6 +106,13 @@ const App: React.FC = () => {
   });
   const [emailAddress, setEmailAddress] = useState("");
 
+  const updateEmailAddress = async (newEmailAddress: string) => {
+
+    // Update emailAddress state, after saving it to local storage.
+    setEmailAddress(await localforage.setItem("emailAddress", newEmailAddress) ?? "");
+
+  };
+
   const addGameResult = async (singleGameResult: gameResult) => {
 
     const updatedResults = [
@@ -145,6 +152,7 @@ const App: React.FC = () => {
               previousPlayers={getUniquePlayers(results)}
               gameResults={results}
               emailAddress={emailAddress}
+              updateEmailAddress={updateEmailAddress}
             />
           </Route>
           <Route exact path="/">

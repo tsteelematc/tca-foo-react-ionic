@@ -1,13 +1,14 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonText, IonGrid, IonRow, IonCol, IonInput } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
 import './Home.css';
 import { gameResult } from '../App';
 import prettyMs from "pretty-ms";
+import { useState } from 'react';
 
 interface HomeProps {
   gameResults: gameResult[];
   previousPlayers: string[];
   emailAddress: string;
+  updateEmailAddress: (e: string) => void;
 }
 
 const calculateShortestGame = (r: gameResult[]) => (
@@ -40,7 +41,10 @@ const Home: React.FC<HomeProps> = ({
   gameResults
   , previousPlayers
   , emailAddress
+  , updateEmailAddress
 }) => {
+
+  const [emailAddressForEditing, setEmailAddressForEditing] = useState(emailAddress);
 
   const lb = calculateLeaderBoard(previousPlayers, gameResults);
 
@@ -64,6 +68,14 @@ const Home: React.FC<HomeProps> = ({
         {
           emailAddress.length > 0 ? <>
           
+            <h3>
+              {emailAddress}
+              <IonButton
+                onClick={() => updateEmailAddress("")}
+              >
+                Reset
+              </IonButton>
+            </h3>
             <h3>
               Total Games Played: {gameResults.length}
             </h3>
@@ -99,8 +111,12 @@ const Home: React.FC<HomeProps> = ({
           
             <IonInput
               placeholder='Enter your email address'
+              value={emailAddressForEditing}
+              onIonChange={(e) => setEmailAddressForEditing(e.detail.value ?? "")}
             ></IonInput>
-            <IonButton>
+            <IonButton
+              onClick={() => updateEmailAddress(emailAddressForEditing)}
+            >
               Save
             </IonButton>
           </>
