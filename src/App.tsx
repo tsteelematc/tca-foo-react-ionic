@@ -76,13 +76,17 @@ const App: React.FC = () => {
 
   const loadGameResults = async () => {
     try {
-      // const r = await localforage.getItem<gameResult[]>("gameResults");
-      const r = await loadGamesFromCloud(
-        "tsteele@madisoncollege.edu"
-        , "tca-foo-react-ionic"
-      );
-      
-      setResults(r ?? []);
+      const e = await localforage.getItem<string>("emailAddress");
+      setEmailAddress(e ?? "");
+
+
+      if (emailAddress.length > 0) {
+        const r = await loadGamesFromCloud(
+          emailAddress
+          , "tca-foo-react-ionic"
+        );
+        setResults(r ?? []);
+      }
     }
 
     catch(err) {
@@ -91,13 +95,6 @@ const App: React.FC = () => {
     }
   };
 
-  useEffect(
-    () => {
-      loadGameResults();
-    }
-    , []
-  );
-
   // App state as useState() until it gets unmanageable...
   const [results, setResults] = useState<gameResult[]>([]);
   const [currentGame, setCurrentGame] = useState<currentGame>({
@@ -105,6 +102,13 @@ const App: React.FC = () => {
     , players: []
   });
   const [emailAddress, setEmailAddress] = useState("");
+
+  useEffect(
+    () => {
+      loadGameResults();
+    }
+    , [emailAddress]
+  );
 
   const updateEmailAddress = async (newEmailAddress: string) => {
 
@@ -124,7 +128,7 @@ const App: React.FC = () => {
 
     // const savedResults = await localforage.setItem('gameResults', updatedResults);
     await saveGameToCloud(
-      "tsteele@madisoncollege.edu"
+      emailAddress
       , "tca-foo-react-ionic"
       , singleGameResult.end // new Date().toISOString()
       , singleGameResult
