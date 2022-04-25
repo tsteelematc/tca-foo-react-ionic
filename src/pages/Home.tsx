@@ -1,4 +1,4 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonText, IonGrid, IonRow, IonCol } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonText, IonGrid, IonRow, IonCol, IonInput } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import './Home.css';
 import { gameResult } from '../App';
@@ -7,6 +7,7 @@ import prettyMs from "pretty-ms";
 interface HomeProps {
   gameResults: gameResult[];
   previousPlayers: string[];
+  emailAddress: string;
 }
 
 const calculateShortestGame = (r: gameResult[]) => (
@@ -38,6 +39,7 @@ const calculateLeaderBoard = (p: string[], r: gameResult[]) => {
 const Home: React.FC<HomeProps> = ({
   gameResults
   , previousPlayers
+  , emailAddress
 }) => {
 
   const lb = calculateLeaderBoard(previousPlayers, gameResults);
@@ -58,37 +60,52 @@ const Home: React.FC<HomeProps> = ({
             <IonTitle size="large">Home</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <h3>
-          Total Games Played: {gameResults.length}
-        </h3>
-        <h3>
-          Shortest Game: {shortestGameDisplay}
-        </h3>
-        <IonGrid>
-          {calculateLeaderBoard(previousPlayers, gameResults)
-            .sort((a, b) => b.winningPercentage.localeCompare(a.winningPercentage))
-            .map(x => (
-              <IonRow>
-                <IonCol>
-                  {x.wins}
-                </IonCol>
-                <IonCol>
-                  {x.losses}
-                </IonCol>
-                <IonCol>
-                  {x.winningPercentage}
-                </IonCol>
-                <IonCol>
-                  {x.name}
-                </IonCol>
-              </IonRow>
-          ))}
-        </IonGrid>
-        <IonButton
-          routerLink='/setup'
-        >
-          Play
-        </IonButton>
+        {
+          emailAddress.length >  0 ?
+          <>
+            <h3>
+              Total Games Played: {gameResults.length}
+            </h3>
+            <h3>
+              Shortest Game: {shortestGameDisplay}
+            </h3>
+            <IonGrid>
+              {calculateLeaderBoard(previousPlayers, gameResults)
+                .sort((a, b) => b.winningPercentage.localeCompare(a.winningPercentage))
+                .map(x => (
+                  <IonRow>
+                    <IonCol>
+                      {x.wins}
+                    </IonCol>
+                    <IonCol>
+                      {x.losses}
+                    </IonCol>
+                    <IonCol>
+                      {x.winningPercentage}
+                    </IonCol>
+                    <IonCol>
+                      {x.name}
+                    </IonCol>
+                  </IonRow>
+              ))}
+            </IonGrid>
+            <IonButton
+              routerLink='/setup'
+            >
+              Play
+            </IonButton>
+          
+          </>
+          :
+          <>
+            <IonInput
+              placeholder='Enter email address'
+            ></IonInput>
+            <IonButton>
+              Save
+            </IonButton>
+          </>
+        }
       </IonContent>
     </IonPage>
   );

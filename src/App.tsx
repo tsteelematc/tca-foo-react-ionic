@@ -104,6 +104,7 @@ const App: React.FC = () => {
     start: ""
     , players: []
   });
+  const [emailAddress, setEmailAddress] = useState("");
 
   const addGameResult = async (singleGameResult: gameResult) => {
 
@@ -143,6 +144,7 @@ const App: React.FC = () => {
             <Home
               previousPlayers={getUniquePlayers(results)}
               gameResults={results}
+              emailAddress={emailAddress}
             />
           </Route>
           <Route exact path="/">
