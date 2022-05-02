@@ -55,7 +55,7 @@ const Home: React.FC<HomeProps> = ({
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Home</IonTitle>
+          <IonTitle>Home (modified)</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
